@@ -1,18 +1,59 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View, StatusBar, FlatList } from "react-native"
+import { getDecks } from "./_helpers"
+import DeckItem from "./components/DeckItem"
+import { Constants } from "expo"
+
+const AppStatusBar = ({ backgroundColor, ...props }) => {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  )
+}
 
 export default class App extends React.Component {
   state = {
-    decks: {}
+    loading: true,
+    decks: []
+  }
+
+  componentWillMount() {
+    getDecks()
+      .then(jsondecks => {
+        let decks = []
+        Object.entries(JSON.parse(jsondecks)).forEach(([key, deck]) =>
+          decks.push(deck)
+        )
+
+        this.setState(...this.state, {
+          decks,
+          loading: false
+        })
+      })
+      .catch(error => console.log(error))
+  }
+
+  onItemClick(title) {}
+
+  renderDeckItem = deck => {
+    return (
+      <DeckItem key={deck.title} deck={deck} onItemClick={this.onItemClick} />
+    )
   }
 
   render() {
+    const { decks } = this.state
+
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menus.</Text>
-        <Text>{JSON.stringify(this.state.decks)}</Text>
+        <AppStatusBar backgroundColor="blue" barStyle="light-content" />
+        <FlatList
+          data={decks}
+          extraData={this.state}
+          keyExtractor={(deck, index) => deck.title}
+          renderItem={this.renderDeckItem}
+        />
       </View>
     )
   }
@@ -20,9 +61,6 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    flex: 1
   }
 })
