@@ -7,10 +7,12 @@ import {
   View,
   TouchableOpacity
 } from "react-native"
+import ProgressBar from "react-native-progress/Bar"
 
 class DeckDetail extends React.PureComponent {
   state = {
     currentQuestion: 0,
+    progress: 0,
     correct: 0
   }
 
@@ -56,24 +58,31 @@ class DeckDetail extends React.PureComponent {
   onPressCorrect = () => {
     const { deck } = this.props.navigation.state.params
     let nextQ = this.state.currentQuestion + 1
+    let progress = nextQ / deck.questions.length
+    this.setState({
+      correct: this.state.correct + 1,
+      currentQuestion: nextQ,
+      progress
+    })
+
     if (nextQ >= deck.questions.length) {
       let score = 100 / deck.questions.length * (this.state.correct + 1)
       this.showEndModal(score)
-    } else {
-      this.setState({ correct: this.state.correct + 1, currentQuestion: nextQ })
     }
   }
 
   onPressIncorrect = () => {
     const { deck } = this.props.navigation.state.params
     let nextQ = this.state.currentQuestion + 1
+    let progress = nextQ / deck.questions.length
+    this.setState({
+      currentQuestion: nextQ,
+      progress
+    })
+
     if (nextQ >= deck.questions.length) {
       let score = 100 / deck.questions.length * this.state.correct
       this.showEndModal(score)
-    } else {
-      this.setState({
-        currentQuestion: nextQ
-      })
     }
   }
 
@@ -86,7 +95,8 @@ class DeckDetail extends React.PureComponent {
       [
         {
           text: "Repeat",
-          onPress: () => this.setState({ correct: 0, currentQuestion: 0 })
+          onPress: () =>
+            this.setState({ correct: 0, currentQuestion: 0, progress: 0 })
         },
         {
           text: "OK",
@@ -110,8 +120,23 @@ class DeckDetail extends React.PureComponent {
 
     const { deck } = this.props.navigation.state.params
     let curr = deck.questions[this.state.currentQuestion]
+
+    // We might have finished
+    if (!curr) curr = deck.questions[this.state.currentQuestion - 1]
     return (
       <View style={styles.container}>
+        <View style={{ width: "100%" }}>
+          <ProgressBar
+            style={{ width: "100%" }}
+            progress={this.state.progress}
+            width={null}
+            height={10}
+            borderRadius={0}
+          />
+          <Text style={styles.progressText}>
+            {`${this.state.currentQuestion}/${deck.questions.length}`}
+          </Text>
+        </View>
         <View style={styles.header}>
           <Animated.View style={frontAnimatedStyle}>
             <Text style={styles.title}>{curr.question}</Text>
@@ -200,6 +225,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 6,
     margin: 10
+  },
+  progressText: {
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    textAlign: "center",
+    fontSize: 9,
+    fontWeight: "bold"
   }
 })
 
