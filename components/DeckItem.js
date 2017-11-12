@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
 
 class DeckItem extends React.PureComponent {
   _onPress = () => {
-    this.props.onItemClick(this.props.deck.item.title)
+    this.props.onItemClick(this.props.deck.item)
   }
 
   render() {

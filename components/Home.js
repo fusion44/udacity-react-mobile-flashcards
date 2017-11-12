@@ -26,8 +26,8 @@ export default class Home extends React.Component {
       .catch(error => console.log(error))
   }
 
-  onItemClick(title) {
-    this.props.navigation.navigate("DeckDetail", { title })
+  onItemClick(deck) {
+    this.props.navigation.navigate("DeckDetail", { deck })
   }
 
   renderDeckItem = deck => {
