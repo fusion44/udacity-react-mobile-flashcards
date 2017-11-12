@@ -14,7 +14,8 @@ class DeckDetail extends React.PureComponent {
   }
 
   onPressStartQuiz = () => {
-    console.log("start quiz")
+    const { deck } = this.props.navigation.state.params
+    this.props.navigation.navigate("Quiz", { deck })
   }
 
   render() {

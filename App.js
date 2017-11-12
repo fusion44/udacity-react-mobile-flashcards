@@ -2,6 +2,7 @@ import React from "react"
 import { StyleSheet, Text, View, StatusBar, FlatList } from "react-native"
 import Home from "./components/Home"
 import DeckDetail from "./components/DeckDetail"
+import Quiz from "./components/Quiz"
 import { Constants } from "expo"
 
 import { StackNavigator } from "react-navigation"
@@ -12,6 +13,9 @@ const ViewStack = StackNavigator({
   },
   DeckDetail: {
     screen: DeckDetail
+  },
+  Quiz: {
+    screen: Quiz
   }
 })
 
