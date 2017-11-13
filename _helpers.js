@@ -2,6 +2,10 @@ import { AsyncStorage } from "react-native"
 
 const DECKS = "FlashCards:Decks"
 
+export const clear = () => {
+  return AsyncStorage.clear()
+}
+
 export const getDecks = () => {
   return AsyncStorage.getItem(DECKS)
 }
