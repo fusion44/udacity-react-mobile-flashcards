@@ -1,7 +1,8 @@
 import React from "react"
-import { FlatList } from "react-native"
-import { getDecks } from "../_helpers"
+import { View, FlatList } from "react-native"
+import { getDecks, clear } from "../_helpers"
 import DeckItem from "./DeckItem"
+import FAB from "react-native-fab"
 import { Constants } from "expo"
 
 export default class Home extends React.Component {
@@ -11,6 +12,14 @@ export default class Home extends React.Component {
   }
 
   componentWillMount() {
+    this.updateData()
+  }
+
+  onDeckAdded() {
+    this.updateData()
+  }
+
+  updateData() {
     getDecks()
       .then(jsondecks => {
         let decks = []
@@ -44,12 +53,24 @@ export default class Home extends React.Component {
     const { decks } = this.state
 
     return (
-      <FlatList
-        data={decks}
-        extraData={this.state}
-        keyExtractor={(deck, index) => deck.title}
-        renderItem={this.renderDeckItem}
-      />
+      <View style={{ height: "100%" }}>
+        <FlatList
+          data={decks}
+          extraData={this.state}
+          keyExtractor={(deck, index) => deck.title}
+          renderItem={this.renderDeckItem}
+        />
+        <FAB
+          buttonColor="red"
+          iconTextColor="#FFFFFF"
+          onClickAction={() => {
+            this.props.navigation.navigate("AddDeck", {
+              onDeckAdded: this.onDeckAdded.bind(this)
+            })
+          }}
+          visible={true}
+        />
+      </View>
     )
   }
 }

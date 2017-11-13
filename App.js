@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar, FlatList } from "react-native"
 import Home from "./components/Home"
 import DeckDetail from "./components/DeckDetail"
 import Quiz from "./components/Quiz"
+import AddDeck from "./components/AddDeck"
 import { Constants } from "expo"
 
 import { StackNavigator } from "react-navigation"
@@ -16,6 +17,9 @@ const ViewStack = StackNavigator({
   },
   Quiz: {
     screen: Quiz
+  },
+  AddDeck: {
+    screen: AddDeck
   }
 })
 
