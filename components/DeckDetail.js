@@ -7,19 +7,41 @@ import {
   FlatList,
   TouchableOpacity
 } from "react-native"
+import { getDeck } from "../_helpers"
 
 class DeckDetail extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      deck: this.props.navigation.state.params.deck
+    }
+  }
+
+  onQuestionAdded = () => {
+    this.updateData()
+  }
+
+  updateData = () => {
+    getDeck(this.state.deck.title)
+      .then(deck => {
+        this.setState(...this.state, { deck })
+      })
+      .catch(error => console.log(error))
+  }
+
   onPressAddCard = () => {
-    console.log("add card")
+    this.props.navigation.navigate("AddCard", {
+      title: this.state.deck.title,
+      onQuestionAdded: this.onQuestionAdded
+    })
   }
 
   onPressStartQuiz = () => {
-    const { deck } = this.props.navigation.state.params
-    this.props.navigation.navigate("Quiz", { deck })
+    this.props.navigation.navigate("Quiz", { deck: this.state.deck })
   }
 
   render() {
-    const { deck } = this.props.navigation.state.params
+    const { deck } = this.state
     let subtitle = "No cards"
     if (deck.questions.length === 1) subtitle = "One card"
     else if (deck.questions.length > 1)

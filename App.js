@@ -4,6 +4,7 @@ import Home from "./components/Home"
 import DeckDetail from "./components/DeckDetail"
 import Quiz from "./components/Quiz"
 import AddDeck from "./components/AddDeck"
+import AddCard from "./components/AddCard"
 import { Constants } from "expo"
 
 import { StackNavigator } from "react-navigation"
@@ -20,6 +21,9 @@ const ViewStack = StackNavigator({
   },
   AddDeck: {
     screen: AddDeck
+  },
+  AddCard: {
+    screen: AddCard
   }
 })
 
