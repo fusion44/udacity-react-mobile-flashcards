@@ -36,7 +36,7 @@ export default class Home extends React.Component {
   }
 
   onItemClick(deck) {
-    this.props.navigation.navigate("DeckDetail", { deck })
+    this.props.navigation.navigate("DeckDetail", { title: deck.title })
   }
 
   renderDeckItem = deck => {

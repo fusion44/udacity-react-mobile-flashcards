@@ -15,7 +15,7 @@ class AddCard extends React.Component {
   }
 
   render() {
-    const { title, onQuestionAdded } = this.props.navigation.state.params
+    const { title } = this.props.navigation.state.params
     return (
       <View style={{ margin: 5 }}>
         <Text style={styles.header}>Add question to {title}</Text>
@@ -39,7 +39,7 @@ class AddCard extends React.Component {
               answer: this.state.answer
             }
             addCardToDeck(title, card).then(err => {
-              onQuestionAdded()
+              // TODO replace with a redux action
               this.props.navigation.goBack()
             })
           }}

@@ -1,4 +1,5 @@
 import React from "react"
+import { connect } from "react-redux"
 import {
   StyleSheet,
   Text,
@@ -8,67 +9,62 @@ import {
   TouchableOpacity
 } from "react-native"
 import { getDeck } from "../_helpers"
+import { fetchDeck } from "../actions"
 
 class DeckDetail extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      deck: this.props.navigation.state.params.deck
-    }
-  }
-
-  onQuestionAdded = () => {
-    this.updateData()
-  }
-
-  updateData = () => {
-    getDeck(this.state.deck.title)
-      .then(deck => {
-        this.setState(...this.state, { deck })
-      })
-      .catch(error => console.log(error))
+  componentWillMount() {
+    this.props.dispatch(fetchDeck(this.props.title))
   }
 
   onPressAddCard = () => {
     this.props.navigation.navigate("AddCard", {
-      title: this.state.deck.title,
-      onQuestionAdded: this.onQuestionAdded
+      title: this.props.title
     })
   }
 
   onPressStartQuiz = () => {
-    this.props.navigation.navigate("Quiz", { deck: this.state.deck })
+    this.props.navigation.navigate("Quiz", { deck: this.props.deck })
   }
 
   render() {
-    const { deck } = this.state
+    const { deck, loading } = this.props
     let subtitle = "No cards"
-    if (deck.questions.length === 1) subtitle = "One card"
-    else if (deck.questions.length > 1)
+    if (!loading && deck.questions.length === 1) subtitle = "One card"
+    else if (!loading && deck.questions.length > 1)
       subtitle = deck.questions.length + " cards"
 
-    return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{deck.title}</Text>
-          <Text style={styles.subtitle}>{subtitle}</Text>
+    if (loading) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Loading ...</Text>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.addCardBtn}
-            onPress={this.onPressAddCard}
-          >
-            <Text>ADD CARD</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.startQuizBtn}
-            onPress={this.onPressStartQuiz}
-          >
-            <Text>START QUIZ</Text>
-          </TouchableOpacity>
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.title}>{deck.title}</Text>
+            <Text style={styles.subtitle}>{subtitle}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.addCardBtn}
+              onPress={this.onPressAddCard}
+            >
+              <Text>ADD CARD</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.startQuizBtn}
+              onPress={this.onPressStartQuiz}
+            >
+              <Text>START QUIZ</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    )
+      )
+    }
   }
 }
 
@@ -113,4 +109,21 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DeckDetail
+function mapStateToProps({ decks }, ownProps) {
+  const { title } = ownProps.navigation.state.params
+  if (Object.keys(decks.decks).length === 0) {
+    return {
+      title,
+      deck: {},
+      loading: true
+    }
+  } else {
+    return {
+      title,
+      deck: decks.decks[title],
+      loading: false
+    }
+  }
+}
+
+export default connect(mapStateToProps)(DeckDetail)
