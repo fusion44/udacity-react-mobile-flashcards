@@ -31,7 +31,7 @@ class Home extends React.Component {
     return (
       <View style={{ height: "100%" }}>
         {loading ? (
-          <Text>Loading ...</Text>
+          <Text>No decks yet. Add some.</Text>
         ) : (
           <FlatList
             data={decks}

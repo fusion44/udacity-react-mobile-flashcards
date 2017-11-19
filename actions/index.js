@@ -19,7 +19,9 @@ export const receiveDecks = decks => {
 }
 
 export const fetchDecks = () => dispatch => {
-  helpers.getDecks().then(decks => dispatch(receiveDecks(decks)))
+  helpers.getDecks().then(decks => {
+    decks ? dispatch(receiveDecks(decks)) : dispatch(receiveDecks({}))
+  })
 }
 
 export const fetchDeck = title => dispatch => {
