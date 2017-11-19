@@ -34,3 +34,12 @@ export const addCard = (title, card) => dispatch => {
     })
     .catch(err => console.log(err))
 }
+
+export const addDeck = title => dispatch => {
+  helpers
+    .saveDeckTitle(title)
+    .then(err => {
+      return dispatch(fetchDeck(title))
+    })
+    .catch(err => console.log(err))
+}

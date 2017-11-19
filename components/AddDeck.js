@@ -1,4 +1,5 @@
 import React from "react"
+import { connect } from "react-redux"
 import {
   StyleSheet,
   Text,
@@ -6,7 +7,7 @@ import {
   View,
   TouchableOpacity
 } from "react-native"
-import { saveDeckTitle } from "../_helpers"
+import { addDeck } from "../actions"
 
 class AddDeck extends React.Component {
   state = {
@@ -25,10 +26,8 @@ class AddDeck extends React.Component {
         <TouchableOpacity
           style={styles.submitBtn}
           onPress={() => {
-            saveDeckTitle(this.state.title).then(err => {
-              // TODO replace with a redux action
-              this.props.navigation.goBack()
-            })
+            this.props.dispatch(addDeck(this.state.title))
+            this.props.navigation.goBack()
           }}
         >
           <Text>ADD DECK</Text>
@@ -54,4 +53,5 @@ const styles = StyleSheet.create({
     margin: 5
   }
 })
-export default AddDeck
+
+export default connect(null)(AddDeck)
