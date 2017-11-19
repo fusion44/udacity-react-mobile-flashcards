@@ -29,9 +29,14 @@ class DeckDetail extends React.PureComponent {
   render() {
     const { deck, loading } = this.props
     let subtitle = "No cards"
-    if (!loading && deck.questions.length === 1) subtitle = "One card"
-    else if (!loading && deck.questions.length > 1)
+    quizDisabled = true
+    if (!loading && deck.questions.length === 1) {
+      quizDisabled = false
+      subtitle = "One card"
+    } else if (!loading && deck.questions.length > 1) {
+      quizDisabled = false
       subtitle = deck.questions.length + " cards"
+    }
 
     if (loading) {
       return (
@@ -55,12 +60,16 @@ class DeckDetail extends React.PureComponent {
             >
               <Text>ADD CARD</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.startQuizBtn}
-              onPress={this.onPressStartQuiz}
-            >
-              <Text>START QUIZ</Text>
-            </TouchableOpacity>
+            {quizDisabled ? (
+              <Text>Add Cards to start quiz</Text>
+            ) : (
+              <TouchableOpacity
+                style={styles.startQuizBtn}
+                onPress={this.onPressStartQuiz}
+              >
+                <Text>START QUIZ</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       )
