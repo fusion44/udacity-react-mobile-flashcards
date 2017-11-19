@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from "react-native"
 import ProgressBar from "react-native-progress/Bar"
+import { setLocalNotification } from "../_helpers"
 
 class DeckDetail extends React.PureComponent {
   state = {
@@ -88,6 +89,8 @@ class DeckDetail extends React.PureComponent {
 
   showEndModal(score) {
     const { deck } = this.props.navigation.state.params
+
+    setLocalNotification()
 
     Alert.alert(
       "You've got it!",
