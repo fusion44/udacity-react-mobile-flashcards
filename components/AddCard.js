@@ -1,4 +1,5 @@
 import React from "react"
+import { connect } from "react-redux"
 import {
   StyleSheet,
   Text,
@@ -6,7 +7,7 @@ import {
   View,
   TouchableOpacity
 } from "react-native"
-import { addCardToDeck } from "../_helpers"
+import { addCard, receiveDeck } from "../actions"
 
 class AddCard extends React.Component {
   state = {
@@ -38,10 +39,8 @@ class AddCard extends React.Component {
               question: this.state.question,
               answer: this.state.answer
             }
-            addCardToDeck(title, card).then(err => {
-              // TODO replace with a redux action
-              this.props.navigation.goBack()
-            })
+            this.props.dispatch(addCard(title, card))
+            this.props.navigation.goBack()
           }}
         >
           <Text>ADD CARD</Text>
@@ -67,4 +66,5 @@ const styles = StyleSheet.create({
     margin: 5
   }
 })
-export default AddCard
+
+export default connect(null)(AddCard)

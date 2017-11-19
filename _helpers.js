@@ -7,7 +7,9 @@ export const clear = () => {
 }
 
 export const getDecks = () => {
-  return AsyncStorage.getItem(DECKS)
+  return AsyncStorage.getItem(DECKS).then(results => {
+    return JSON.parse(results)
+  })
 }
 
 export const getDeck = title => {
@@ -29,9 +31,8 @@ export const saveDeckTitle = title => {
 export const addCardToDeck = (title, card) => {
   try {
     return getDecks().then(decks => {
-      let d = JSON.parse(decks)
-      d[title].questions.push(card)
-      return AsyncStorage.mergeItem(DECKS, JSON.stringify(d))
+      decks[title].questions.push(card)
+      return AsyncStorage.mergeItem(DECKS, JSON.stringify(decks))
     })
   } catch (error) {
     console.log(error)

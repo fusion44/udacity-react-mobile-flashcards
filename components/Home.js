@@ -1,38 +1,14 @@
 import React from "react"
-import { View, FlatList } from "react-native"
-import { getDecks, clear } from "../_helpers"
+import { connect } from "react-redux"
+import { Text, View, FlatList } from "react-native"
 import DeckItem from "./DeckItem"
 import FAB from "react-native-fab"
 import { Constants } from "expo"
+import { fetchDecks } from "../actions"
 
-export default class Home extends React.Component {
-  state = {
-    loading: true,
-    decks: []
-  }
-
+class Home extends React.Component {
   componentWillMount() {
-    this.updateData()
-  }
-
-  onDeckAdded() {
-    this.updateData()
-  }
-
-  updateData() {
-    getDecks()
-      .then(jsondecks => {
-        let decks = []
-        Object.entries(JSON.parse(jsondecks)).forEach(([key, deck]) =>
-          decks.push(deck)
-        )
-
-        this.setState(...this.state, {
-          decks,
-          loading: false
-        })
-      })
-      .catch(error => console.log(error))
+    this.props.dispatch(fetchDecks())
   }
 
   onItemClick(deck) {
@@ -50,23 +26,26 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { decks } = this.state
+    const { loading, decks } = this.props
 
     return (
       <View style={{ height: "100%" }}>
-        <FlatList
-          data={decks}
-          extraData={this.state}
-          keyExtractor={(deck, index) => deck.title}
-          renderItem={this.renderDeckItem}
-        />
+        {loading ? (
+          <Text>Loading ...</Text>
+        ) : (
+          <FlatList
+            data={decks}
+            extraData={this.state}
+            keyExtractor={(deck, index) => deck.title}
+            renderItem={this.renderDeckItem}
+          />
+        )}
+
         <FAB
           buttonColor="red"
           iconTextColor="#FFFFFF"
           onClickAction={() => {
-            this.props.navigation.navigate("AddDeck", {
-              onDeckAdded: this.onDeckAdded.bind(this)
-            })
+            this.props.navigation.navigate("AddDeck")
           }}
           visible={true}
         />
@@ -74,3 +53,22 @@ export default class Home extends React.Component {
     )
   }
 }
+
+function mapStateToProps({ decks }, ownProps) {
+  let deckList = []
+  Object.entries(decks.decks).forEach(([key, deck]) => deckList.push(deck))
+
+  if (Object.keys(decks.decks).length === 0) {
+    return {
+      decks: [],
+      loading: true
+    }
+  } else {
+    return {
+      decks: deckList,
+      loading: false
+    }
+  }
+}
+
+export default connect(mapStateToProps)(Home)

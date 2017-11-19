@@ -14,7 +14,6 @@ class AddDeck extends React.Component {
   }
 
   render() {
-    const { onDeckAdded } = this.props.navigation.state.params
     return (
       <View style={{ margin: 5 }}>
         <Text style={styles.header}>What's the deck title?</Text>
@@ -27,7 +26,7 @@ class AddDeck extends React.Component {
           style={styles.submitBtn}
           onPress={() => {
             saveDeckTitle(this.state.title).then(err => {
-              onDeckAdded()
+              // TODO replace with a redux action
               this.props.navigation.goBack()
             })
           }}

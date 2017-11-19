@@ -1,7 +1,9 @@
-import { RECEIVE_DECK } from "../actions"
+import { RECEIVE_DECK, RECEIVE_DECKS } from "../actions"
 
 const decks = (state = { decks: {} }, action) => {
   switch (action.type) {
+    case RECEIVE_DECKS:
+      return { decks: action.decks }
     case RECEIVE_DECK:
       let newDecks = { ...state.decks }
       newDecks[action.deck.title] = action.deck
