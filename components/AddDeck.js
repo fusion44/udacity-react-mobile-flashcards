@@ -1,4 +1,5 @@
 import React from "react"
+import { NavigationActions } from "react-navigation"
 import { connect } from "react-redux"
 import {
   StyleSheet,
@@ -30,8 +31,26 @@ class AddDeck extends React.Component {
         <TouchableOpacity
           style={styles.submitBtn}
           onPress={() => {
-            this.props.dispatch(addDeck(this.state.title))
-            this.props.navigation.goBack()
+            this.props.dispatch(addDeck(this.state.title)).then(() => {
+              // This is absolutely not optimal but necessary until
+              // a replace function is implemented to react-navigation
+              // This will surpress animating into the detail screen...
+              // https://github.com/react-community/react-navigation/issues/295
+              let resetAction = NavigationActions.reset({
+                index: 1,
+                actions: [
+                  NavigationActions.navigate({ routeName: "Home" }),
+                  NavigationActions.navigate({
+                    routeName: "DeckDetail",
+                    params: {
+                      title: this.state.title
+                    }
+                  })
+                ]
+              })
+
+              this.props.navigation.dispatch(resetAction)
+            })
           }}
         >
           <Text>ADD DECK</Text>

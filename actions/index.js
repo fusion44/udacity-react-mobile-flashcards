@@ -35,10 +35,5 @@ export const addCard = (title, card) => dispatch => {
 }
 
 export const addDeck = title => dispatch => {
-  helpers
-    .saveDeckTitle(title)
-    .then(err => {
-      return dispatch(fetchDeck(title))
-    })
-    .catch(err => console.log(err))
+  return helpers.saveDeckTitle(title)
 }

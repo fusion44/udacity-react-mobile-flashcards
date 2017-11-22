@@ -111,7 +111,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps({ decks }, ownProps) {
   const { title } = ownProps.navigation.state.params
-  if (Object.keys(decks.decks).length === 0) {
+  if (
+    Object.keys(decks.decks).length === 0 ||
+    decks.decks[title] === undefined
+  ) {
     return {
       title,
       deck: {},
