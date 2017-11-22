@@ -5,7 +5,8 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native"
 import { addCard, receiveDeck } from "../actions"
 
@@ -19,19 +20,21 @@ class AddCard extends React.Component {
     const { title } = this.props.navigation.state.params
     return (
       <View style={{ margin: 5 }}>
-        <Text style={styles.header}>Add question to {title}</Text>
-        <Text style={styles.header}>Question</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={question => this.setState({ question })}
-          value={this.state.question}
-        />
-        <Text style={styles.header}>Answer</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={answer => this.setState({ answer })}
-          value={this.state.answer}
-        />
+        <KeyboardAvoidingView>
+          <Text style={styles.header}>Add question to {title}</Text>
+          <Text style={styles.header}>Question</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={question => this.setState({ question })}
+            value={this.state.question}
+          />
+          <Text style={styles.header}>Answer</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={answer => this.setState({ answer })}
+            value={this.state.answer}
+          />
+        </KeyboardAvoidingView>
         <TouchableOpacity
           style={styles.submitBtn}
           onPress={() => {

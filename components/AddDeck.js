@@ -5,7 +5,8 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native"
 import { addDeck } from "../actions"
 
@@ -17,12 +18,14 @@ class AddDeck extends React.Component {
   render() {
     return (
       <View style={{ margin: 5 }}>
-        <Text style={styles.header}>What's the deck title?</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={title => this.setState({ title })}
-          value={this.state.title}
-        />
+        <KeyboardAvoidingView>
+          <Text style={styles.header}>What's the deck title?</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={title => this.setState({ title })}
+            value={this.state.title}
+          />
+        </KeyboardAvoidingView>
         <TouchableOpacity
           style={styles.submitBtn}
           onPress={() => {
