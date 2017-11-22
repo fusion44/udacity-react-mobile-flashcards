@@ -9,6 +9,7 @@ import {
 } from "react-native"
 import ProgressBar from "react-native-progress/Bar"
 import { setLocalNotification } from "../_helpers"
+import common from "../common/styles"
 
 class DeckDetail extends React.PureComponent {
   state = {
@@ -128,9 +129,9 @@ class DeckDetail extends React.PureComponent {
     if (!curr) curr = deck.questions[this.state.currentQuestion - 1]
     return (
       <View style={styles.container}>
-        <View style={{ width: "100%" }}>
+        <View style={common.fullWidth}>
           <ProgressBar
-            style={{ width: "100%" }}
+            style={common.fullWidth}
             progress={this.state.progress}
             width={null}
             height={10}
@@ -202,32 +203,18 @@ const styles = StyleSheet.create({
     width: 200
   },
   showAnswerBtn: {
-    width: "100%",
-    height: 40,
+    ...common.btn,
     marginBottom: 40,
-    backgroundColor: "orange",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-    margin: 5
+    backgroundColor: "orange"
   },
   correctBtn: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "green",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-    margin: 10
+    ...common.btn,
+    backgroundColor: "green"
   },
   incorrectBtn: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "red",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-    margin: 10
+    ...common.btn,
+
+    backgroundColor: "red"
   },
   progressText: {
     width: "100%",

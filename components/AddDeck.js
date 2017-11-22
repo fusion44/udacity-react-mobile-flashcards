@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView
 } from "react-native"
 import { addDeck } from "../actions"
+import common from "../common/styles"
 
 class AddDeck extends React.Component {
   state = {
@@ -40,20 +41,10 @@ class AddDeck extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-  header: {
-    width: "100%",
-    textAlign: "center",
-    fontSize: 25,
-    marginBottom: 25
-  },
+  header: common.header,
   submitBtn: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "lightgreen",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-    margin: 5
+    ...common.btn,
+    backgroundColor: "lightgreen"
   },
   textInput: {
     height: 40

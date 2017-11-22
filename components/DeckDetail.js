@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { getDeck } from "../_helpers"
 import { fetchDeck } from "../actions"
+import common from "../common/styles"
 
 class DeckDetail extends React.PureComponent {
   componentWillMount() {
@@ -99,22 +100,12 @@ const styles = StyleSheet.create({
     width: 200
   },
   addCardBtn: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "lightgreen",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-    margin: 5
+    ...common.btn,
+    backgroundColor: "lightgreen"
   },
   startQuizBtn: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "lightblue",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-    margin: 5
+    ...common.btn,
+    backgroundColor: "lightblue"
   }
 })
 
