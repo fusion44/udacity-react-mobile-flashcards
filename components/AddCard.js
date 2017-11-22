@@ -22,13 +22,13 @@ class AddCard extends React.Component {
         <Text style={styles.header}>Add question to {title}</Text>
         <Text style={styles.header}>Question</Text>
         <TextInput
-          style={{ height: 40 }}
+          style={styles.textInput}
           onChangeText={question => this.setState({ question })}
           value={this.state.question}
         />
         <Text style={styles.header}>Answer</Text>
         <TextInput
-          style={{ height: 40 }}
+          style={styles.textInput}
           onChangeText={answer => this.setState({ answer })}
           value={this.state.answer}
         />
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 6,
     margin: 5
+  },
+  textInput: {
+    height: 40
   }
 })
 

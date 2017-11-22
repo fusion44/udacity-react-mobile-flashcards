@@ -19,7 +19,7 @@ class AddDeck extends React.Component {
       <View style={{ margin: 5 }}>
         <Text style={styles.header}>What's the deck title?</Text>
         <TextInput
-          style={{ height: 40 }}
+          style={styles.textInput}
           onChangeText={title => this.setState({ title })}
           value={this.state.title}
         />
@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 6,
     margin: 5
+  },
+  textInput: {
+    height: 40
   }
 })
 
