@@ -1,4 +1,4 @@
-import { RECEIVE_DECK, RECEIVE_DECKS } from "../actions"
+import { RECEIVE_DECK, RECEIVE_DECKS } from "../actions/types"
 
 const decks = (state = { decks: {} }, action) => {
   switch (action.type) {

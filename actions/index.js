@@ -1,8 +1,5 @@
 import * as helpers from "../_helpers"
-
-export const RECEIVE_DECK = "RECEIVE_DECK"
-export const RECEIVE_DECKS = "RECEIVE_DECKS"
-export const GET_DECK = "GET_DECK"
+import { RECEIVE_DECK, RECEIVE_DECKS } from "./types"
 
 export const receiveDeck = deck => {
   return {
